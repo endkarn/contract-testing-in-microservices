@@ -1,0 +1,146 @@
+{
+	"info": {
+		"_postman_id": "3e076713-8d78-4b28-ba73-929f9b809349",
+		"name": "Contract Testing",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "get token",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "c4ed9d19-5365-4578-a18c-b0d04c8a30e6",
+						"exec": [
+							"responseSchema = {",
+							"  \"definitions\": {},",
+							"  \"$schema\": \"http://json-schema.org/draft-07/schema#\",",
+							"  \"$id\": \"http://example.com/root.json\",",
+							"  \"type\": \"object\",",
+							"  \"title\": \"The Root Schema\",",
+							"  \"required\": [",
+							"    \"expire\",",
+							"    \"token\",",
+							"  ],",
+							"  \"properties\": {",
+							"    \"expire\": {",
+							"      \"$id\": \"#/properties/expire\",",
+							"      \"type\": \"string\",",
+							"      \"title\": \"The Expire Schema\",",
+							"      \"default\": \"\",",
+							"      \"examples\": [",
+							"        \"2019-10-27 14:17:40+07:00\"",
+							"      ],",
+							"      \"pattern\": \"^(.*)$\"",
+							"    },",
+							"    \"token\": {",
+							"      \"$id\": \"#/properties/token\",",
+							"      \"type\": \"string\",",
+							"      \"title\": \"The Token Schema\",",
+							"      \"default\": \"\",",
+							"      \"examples\": [",
+							"        \"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJzZWN1cmUtYXBpIiwiYXVkIjoic2VjdXJlLWFwcCIsInN1YiI6IkF1dGhvcml6YXRpb24iLCJleHAiOjE1NzIxNjA2NjAsInJvbCI6WyJST0xFX1VTRVIiXSwiZCpzaWciOnsicCI6InpXNzB4IiwicyI6bnVsbCwidSI6Ijk4NDZjYmMyNTdjNjkyMDhlODlmZTIyODJmY2Y4YjQ5IiwiZiI6InhzeiM5In19.U1nFR5AAJnimlTJB9Z4do4hxzpCcR2Wi_fY5EtE9bylgtLTm2tIIsRL6nxJz7ISvstl2wjmNw7q4wSCIGrz6og\"",
+							"      ],",
+							"      \"pattern\": \"^(.*)$\"",
+							"    }",
+							"  }",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "d5f58a96-91a3-4ac1-9205-146a86e68600",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test('โครงสร้าง Schema ตรงตามที่ตกลงกัน',function () {",
+							"    var response = pm.response.json();",
+							"    var validationResult = tv4.validate(response, responseSchema);",
+							"    pm.expect(validationResult).to.be.true;",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Token {{static-token}}",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://trackapi.thailandpost.co.th/post/api/v1/authenticate/token",
+					"protocol": "https",
+					"host": [
+						"trackapi",
+						"thailandpost",
+						"co",
+						"th"
+					],
+					"path": [
+						"post",
+						"api",
+						"v1",
+						"authenticate",
+						"token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get items",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Token eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJzZWN1cmUtYXBpIiwiYXVkIjoic2VjdXJlLWFwcCIsInN1YiI6IkF1dGhvcml6YXRpb24iLCJleHAiOjE1NzIxNjA2NjAsInJvbCI6WyJST0xFX1VTRVIiXSwiZCpzaWciOnsicCI6InpXNzB4IiwicyI6bnVsbCwidSI6Ijk4NDZjYmMyNTdjNjkyMDhlODlmZTIyODJmY2Y4YjQ5IiwiZiI6InhzeiM5In19.U1nFR5AAJnimlTJB9Z4do4hxzpCcR2Wi_fY5EtE9bylgtLTm2tIIsRL6nxJz7ISvstl2wjmNw7q4wSCIGrz6og",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n   \"status\": \"all\",\n   \"language\": \"TH\",\n   \"barcode\": [\n       \"ED852942182TH\"\n  ]\n}"
+				},
+				"url": {
+					"raw": "https://trackapi.thailandpost.co.th/post/api/v1/track",
+					"protocol": "https",
+					"host": [
+						"trackapi",
+						"thailandpost",
+						"co",
+						"th"
+					],
+					"path": [
+						"post",
+						"api",
+						"v1",
+						"track"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
